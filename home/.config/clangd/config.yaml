@@ -1,0 +1,11 @@
+# clangd needs compile_commands.json in the project root (or build/):
+#   cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+#   bear -- make          (plain Makefiles)
+CompileFlags:
+  Add: [-Wall, -Wextra]
+Diagnostics:
+  UnusedIncludes: None
+Index:
+  Background: Build
+InlayHints:
+  Enabled: false

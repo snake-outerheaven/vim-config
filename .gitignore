@@ -1,0 +1,11 @@
+# Runtime state created by vimrc
+backup/
+swap/
+undo/
+viminfo
+.netrwhist
+tags
+cscope.*
+
+# Machine-specific overrides
+local.vim

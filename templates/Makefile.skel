@@ -1,0 +1,20 @@
+# Copy to project root as Makefile. Recipes need real tabs.
+CC ?= gcc
+CFLAGS ?= -std=gnu11 -O2 -g -Wall -Wextra -Wno-unused-parameter
+SRCS := $(wildcard *.c)
+OBJS := $(SRCS:.c=.o)
+TARGET := app
+
+.PHONY: all clean
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $<
+
+clean:
+	$(RM) $(TARGET) $(OBJS) $(OBJS:.o=.d)
+
+-include $(OBJS:.o=.d)

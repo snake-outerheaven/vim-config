@@ -1,0 +1,33 @@
+# Linux kernel style (Documentation/process/coding-style.rst), simplified.
+---
+Language: Cpp
+BasedOnStyle: LLVM
+UseTab: Always
+TabWidth: 8
+IndentWidth: 8
+ContinuationIndentWidth: 8
+ColumnLimit: 80
+BreakBeforeBraces: Linux
+IndentCaseLabels: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AlignAfterOpenBracket: Align
+AlignEscapedNewlines: Left
+AlignTrailingComments: true
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: false
+IndentWrappedFunctionNames: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+PointerAlignment: Right
+SpaceBeforeParens: ControlStatementsExceptForEachMacros
+SpacesBeforeTrailingComments: 1
+SortIncludes: false
+ReflowComments: true
+Cpp11BracedListStyle: false
+...
