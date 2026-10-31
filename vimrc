@@ -31,7 +31,13 @@ set laststatus=2
 set display=lastline
 set nowrap
 set list
-set listchars=tab:>-,trail:~,extends:>,precedes:<,nbsp:+
+" Subtle whitespace markers: a faint chevron for tabs (kernel code is full of
+" them), a dot for trailing spaces.  ASCII fallback when not in UTF-8.
+if &encoding ==# 'utf-8'
+  set listchars=tab:›\ ,trail:·,extends:›,precedes:‹,nbsp:␣
+else
+  set listchars=tab:>\ ,trail:~,extends:>,precedes:<,nbsp:+
+endif
 set diffopt+=internal,algorithm:patience
 
 " Simple built-in statusline: file, flags, ft, encoding, position
