@@ -24,7 +24,6 @@ return {
                 for i, color in ipairs(grad) do
                     vim.api.nvim_set_hl(0, "AlphaHeader" .. i, { fg = color, bold = true })
                 end
-                vim.api.nvim_set_hl(0, "AlphaSubtitle", { fg = "#928374", italic = true })
                 vim.api.nvim_set_hl(0, "AlphaButton", { fg = "#ebdbb2" })
                 vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#b8bb26", bold = true })
                 vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#928374", italic = true })
@@ -36,7 +35,6 @@ return {
             for i, line in ipairs(logo) do
                 header.val[i] = { type = "text", val = line, opts = { hl = "AlphaHeader" .. i, position = "center" } }
             end
-            local subtitle = { type = "text", val = "C / C++   ·   estilo kernel", opts = { hl = "AlphaSubtitle", position = "center" } }
 
             local function button(key, label, icon, cmd)
                 local b = dashboard.button(key, icon .. "  " .. label, cmd)
@@ -65,8 +63,6 @@ return {
             dashboard.config.layout = {
                 { type = "padding", val = math.max(2, math.floor(vim.o.lines * 0.18)) },
                 header,
-                { type = "padding", val = 1 },
-                subtitle,
                 { type = "padding", val = 2 },
                 buttons,
                 { type = "padding", val = 2 },
