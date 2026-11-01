@@ -25,6 +25,12 @@ set ignorecase smartcase
 " --- Display ---------------------------------------------------
 set ruler showcmd wildmenu
 set wildmode=longest:full,full
+set wildoptions=pum                " completion menu as a popup list
+set noshowmode                     " the status line shows the mode
+set cursorline
+set signcolumn=yes
+set pumheight=12
+set updatetime=250
 set scrolloff=5 sidescrolloff=5
 set number relativenumber
 set laststatus=2
@@ -124,3 +130,12 @@ runtime! conf/*.vim
 if filereadable(expand("~/.vim/local.vim"))
   source ~/.vim/local.vim
 endif
+
+" --- Plugins and colorscheme, last -------------------------------
+" Debian's pack/dist-bundle/start plugins normally load after the vimrc, which is
+" too late for :colorscheme to find vim-gruvbox.  :packloadall loads them here instead,
+" after conf/*.vim and local.vim have set the guard variables and options.
+if has('packages')
+  packloadall
+endif
+silent! colorscheme gruvbox         " falls back to the retrobox set above

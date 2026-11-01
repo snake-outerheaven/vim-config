@@ -13,9 +13,10 @@ License: [MIT](LICENSE).
 ## Layout
 
 ```
-vimrc                      core settings, Space leader, built-in colorscheme
+vimrc                      core settings, Space leader, gruvbox colorscheme (retrobox fallback)
 gvimrc                     gvim only: Cascadia Code 11, no toolbar/menu
-conf/00-plugin-policy.vim  neutralise Debian plugins that clash with this setup
+conf/00-plugin-policy.vim  neutralise Debian plugins that clash; airline and gruvbox settings
+conf/20-start.vim          Gruvbox start screen (:Start)
 conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, CtrlP
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
@@ -40,9 +41,28 @@ A `~/.vimrc` takes precedence over `~/.vim/vimrc`, so remove or rename it.
 `vim*` installs every Debian Vim plugin.  `conf/00-plugin-policy.vim` makes that
 safe: it pre-sets the guard variable of each auto-loading plugin that clashes
 with this setup (snipmate, syntastic, auto-pairs, minimap, command-t, pathogen,
-vimwiki, voom, ...), so they never load.  Kept: airline (plain theme, no
-powerline fonts), ALE, fugitive, gitgutter, lastplace.  CtrlP is loaded
+vimwiki, voom, ...), so they never load.  Kept: airline with the gruvbox theme, ALE,
+fugitive, gitgutter, lastplace, gruvbox.  CtrlP is loaded
 explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
+
+## Appearance
+
+All of it comes from Debian 13 packages or plain Vim script; no plugin manager, no
+downloads, no special font needed.
+
+| Piece | Source |
+|---|---|
+| Colorscheme | `vim-gruvbox` (hard contrast); falls back to the built-in `retrobox` |
+| Status line and buffer tabline | `vim-airline` with the gruvbox theme from `vim-gruvbox`: mode, git branch, hunks (gitgutter), ALE counts, filetype, encoding, position |
+| Start screen | `conf/20-start.vim` (Debian has no vim-startify): logo with a yellow-to-red gradient, one-key buttons, last 5 files |
+
+Start screen keys: `f` find file, `g` grep, `r` recent files, `e` explore, `n` new file,
+`c` open the vimrc, `q` quit, `1`-`5` open a recent file, `Enter` runs the button under the
+cursor. `:Start` opens it again.
+
+With a Powerline or Nerd Font put `let g:airline_powerline_fonts = 1` in `~/.vim/local.vim`.
+`:packloadall` at the end of the vimrc loads the Debian plugins early enough for
+`:colorscheme gruvbox` to find them; the guard variables and options are set before it.
 
 ## Generic maps
 
