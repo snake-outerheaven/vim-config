@@ -20,7 +20,7 @@ conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, C
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
-nvim/                      Neovim config (Lua, Gruvbox, lazy.nvim); the one part that downloads plugins
+nvim/                      Neovim config (Lua, no plugins): kernel style, clangd via built-in LSP
 home/                      files to copy into $HOME (.clang-format, clangd config)
 ```
 
@@ -47,20 +47,27 @@ explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
 
 ## Neovim (optional)
 
-`nvim/` is a separate Lua config for Neovim; plain Vim ignores it. Unlike the
-rest of this repository it uses a plugin manager (lazy.nvim, which clones itself
-on first start, so it needs git and network): Gruvbox, lualine, telescope,
-gitsigns, which-key. Without network, Neovim still starts with the core
-options and maps.
+`nvim/` is the same setup for Neovim, in Lua, with no plugins and no downloads
+(plain Vim ignores it). It does what the old Emacs setup did with built-ins:
+
+| Emacs | Neovim here |
+|---|---|
+| `compile` | `:make` + quickfix (`<leader>mm`, `]q` `[q`) |
+| `eglot` + clangd | built-in LSP (`gd` `gr` `K` `<leader>rn` `<leader>ca`) |
+| `gdb` | `termdebug` (`<leader>dd`, same keys as the Vim section below) |
+| `dired` | netrw (`<leader>e`), `:find` (`<leader>ff`) |
+| `clang-format` | `<leader>=` on the buffer or selection |
+
+Kernel style (8-wide tabs, 80 columns, trailing whitespace in red) lives in
+`nvim/after/ftplugin/c.lua`; C++ reuses it. Colorscheme is `retrobox` (Neovim
+0.10+, `habamax` on older). Leader is Space, as in Vim.
 
 ```sh
-sudo apt install neovim ripgrep fd-find
+sudo apt install neovim clangd clang-format bear ripgrep
 ln -s ~/.vim/nvim ~/.config/nvim
 ```
 
-Leader is Space, as in the Vim setup: `<leader>w` write, `<leader>q` quit,
-`<leader>f` files, `<leader>g` grep, `<leader>b` buffers, `<C-h/j/k/l>` windows,
-`<S-h>`/`<S-l>` previous/next buffer.
+clangd needs `compile_commands.json`: run `bin/mkproject.sh` in the project.
 
 ## Generic maps
 

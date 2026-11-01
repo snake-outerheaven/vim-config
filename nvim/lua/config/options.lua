@@ -1,31 +1,40 @@
 local o = vim.opt
 
 o.number = true
-o.relativenumber = true
+o.relativenumber = false
 o.cursorline = true
 o.signcolumn = "yes"
 o.termguicolors = true
-o.scrolloff = 8
+o.scrolloff = 5
 o.wrap = false
-
--- indentacao: 4 espacos (Lua, C e Python ficam bem; ajuste por tipo de arquivo se precisar)
-o.expandtab = true
-o.shiftwidth = 4
-o.tabstop = 4
-o.smartindent = true
-
--- busca
-o.ignorecase = true
-o.smartcase = true
-o.hlsearch = true
-o.incsearch = true
-
--- janelas e arquivos
+o.mouse = "a"
+o.clipboard = "unnamedplus"        -- wl-clipboard no Sway
+o.undofile = true
+o.swapfile = false
 o.splitright = true
 o.splitbelow = true
-o.undofile = true        -- desfazer persiste entre sessoes
-o.swapfile = false
-o.updatetime = 250
-o.mouse = "a"
-o.clipboard = "unnamedplus"   -- usa wl-clipboard no Sway
-o.completeopt = { "menu", "menuone", "noselect" }
+o.ignorecase = true
+o.smartcase = true
+o.list = true
+o.listchars = { tab = "› ", trail = "·", extends = "›", precedes = "‹", nbsp = "␣" }
+
+-- estilo kernel: tabs de 8 (aplicado por tipo em after/ftplugin/c.lua e cpp.lua)
+o.tabstop = 8
+o.shiftwidth = 8
+o.expandtab = false
+
+-- ferramentas externas
+if vim.fn.executable("rg") == 1 then
+    o.grepprg = "rg --vimgrep --smart-case"
+    o.grepformat = "%f:%l:%c:%m"
+end
+o.makeprg = "make"
+
+-- tema embutido; cai para outro se o nvim for antigo
+if not pcall(vim.cmd.colorscheme, "retrobox") then
+    pcall(vim.cmd.colorscheme, "habamax")
+end
+
+-- gdb dentro do nvim (termdebug vem no nvim)
+vim.g.termdebug_wide = 163
+vim.cmd("packadd termdebug")
