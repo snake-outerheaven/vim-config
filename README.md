@@ -55,7 +55,7 @@ pinned to its `master` branch (`main` needs 0.12) and telescope to `0.1.x`.
 
 | Area | Plugins |
 |---|---|
-| Look | gruvbox.nvim, lualine, bufferline, noice + nvim-notify, indent-blankline, which-key, presence.nvim (Discord, no file names shown) |
+| Look | gruvbox.nvim, lualine (status line with git, diff, clangd), alpha-nvim (Gruvbox start menu), bufferline, noice + nvim-notify, indent-blankline, which-key, presence.nvim (Discord, no file names shown) |
 | Find / move | telescope (+ fzf-native), oil, flash, trouble, todo-comments |
 | Code | nvim-treesitter, nvim-cmp + LuaSnip, conform (clang-format), nvim-autopairs, mini.surround |
 | C/C++ | clangd (built-in LSP), cmake-tools, nvim-dap + dap-ui with gdb 14+ (native DAP) |
@@ -71,6 +71,9 @@ sudo apt install neovim clangd clang-format clang-tidy gdb cmake bear ripgrep fd
 cd ~/.vim && stow --no-folding -t ~ nvim
 nvim            # first start clones lazy.nvim and the plugins (needs git and network)
 ```
+
+Icons need a Nerd Font in the terminal (e.g. CaskaydiaCove Nerd Font); with a plain font set
+`vim.g.have_nerd_font = false` in `lua/config/options.lua` and everything falls back to ASCII.
 
 After the first successful start, commit `nvim/.config/nvim/lazy-lock.json` to pin
 the working plugin versions (`:Lazy restore` goes back to them). clangd needs

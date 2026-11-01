@@ -1,5 +1,7 @@
 local o = vim.opt
 
+vim.g.have_nerd_font = true     -- false se a fonte do terminal nao for Nerd Font
+
 o.number = true
 o.relativenumber = true
 o.cursorline = true

@@ -13,21 +13,48 @@ return {
 
     { "nvim-tree/nvim-web-devicons", lazy = true },
 
+    -- status line: modo, git (branch e diff), arquivo, diagnosticos, clangd, posicao
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        opts = {
-            options = {
-                theme = "gruvbox",
-                globalstatus = true,
-                section_separators = "",
-                component_separators = "|",
-            },
-            sections = {
-                lualine_c = { { "filename", path = 1 }, "diagnostics" },
-                lualine_x = { "encoding", "fileformat", "filetype" },
-            },
-        },
+        opts = function()
+            local icons = require("config.icons")
+            local function lsp_names()
+                local names = {}
+                for _, c in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do names[#names + 1] = c.name end
+                if #names == 0 then return "" end
+                return icons.lsp .. " " .. table.concat(names, ",")
+            end
+            local function diff_source()
+                local d = vim.b.gitsigns_status_dict
+                if d then return { added = d.added, modified = d.changed, removed = d.removed } end
+            end
+            return {
+                options = {
+                    theme = "gruvbox",
+                    globalstatus = true,
+                    component_separators = "",
+                    section_separators = { left = icons.sep_right, right = icons.sep_left },
+                    disabled_filetypes = { statusline = { "alpha" } },
+                },
+                sections = {
+                    lualine_a = { { "mode", icon = icons.vim } },
+                    lualine_b = {
+                        { "branch", icon = icons.branch },
+                        { "diff", source = diff_source, symbols = { added = "+", modified = "~", removed = "-" } },
+                    },
+                    lualine_c = {
+                        { "filename", path = 1, symbols = { modified = " " .. icons.modified, readonly = " " .. icons.readonly } },
+                        { "diagnostics", symbols = { error = "E", warn = "W", info = "I", hint = "H" } },
+                    },
+                    lualine_x = { { "searchcount" }, { lsp_names }, "filetype" },
+                    lualine_y = { "progress" },
+                    lualine_z = { "location" },
+                },
+                inactive_sections = { lualine_c = { "filename" }, lualine_x = { "location" } },
+                extensions = { "quickfix", "lazy", "trouble" },
+            }
+        end,
     },
 
     {
