@@ -56,6 +56,7 @@ return {
     -- git na margem e hunks
     {
         "lewis6991/gitsigns.nvim",
+        version = "^1.0",            -- a v2 mira o Neovim 0.11; no 0.10.4 do Debian falha em vim.validate
         event = { "BufReadPost", "BufNewFile" },
         opts = {
             on_attach = function(buf)
