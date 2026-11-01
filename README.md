@@ -20,7 +20,7 @@ conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, C
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
-nvim/                      stow package: nvim/.config/nvim (Lua, no plugins, kernel style, built-in LSP)
+nvim/                      stow package: nvim/.config/nvim (Neovim 0.10, lazy.nvim, C/C++ only)
 home/                      files to copy into $HOME (.clang-format, clangd config)
 ```
 
@@ -47,27 +47,34 @@ explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
 
 ## Neovim (optional)
 
-`nvim/` is the same setup for Neovim, in Lua, with no plugins and no downloads
-(plain Vim ignores it). It does what the old Emacs setup did with built-ins:
+`nvim/` is a stow package (`nvim/.config/nvim`) with a modern Neovim setup for
+C/C++ only, in the kernel style of the Vim config. Plain Vim ignores it. Target is
+**Neovim 0.10** (Debian 13 ships 0.10.4): LSP and inlay hints use the built-in API,
+and there is no nvim-lspconfig (current releases need 0.11.3+). nvim-treesitter is
+pinned to its `master` branch (`main` needs 0.12) and telescope to `0.1.x`.
 
-| Emacs | Neovim here |
+| Area | Plugins |
 |---|---|
-| `compile` | `:make` + quickfix (`<leader>mm`, `]q` `[q`) |
-| `eglot` + clangd | built-in LSP (`gd` `gr` `K` `<leader>rn` `<leader>ca`) |
-| `gdb` | `termdebug` (`<leader>dd`, same keys as the Vim section below) |
-| `dired` | netrw (`<leader>e`), `:find` (`<leader>ff`) |
-| `clang-format` | `<leader>=` on the buffer or selection |
+| Look | gruvbox.nvim, lualine, bufferline, noice + nvim-notify, indent-blankline, which-key |
+| Find / move | telescope (+ fzf-native), oil, flash, trouble, todo-comments |
+| Code | nvim-treesitter, nvim-cmp + LuaSnip, conform (clang-format), nvim-autopairs, mini.surround |
+| C/C++ | clangd (built-in LSP), cmake-tools, nvim-dap + dap-ui with gdb 14+ (native DAP) |
+| Git | gitsigns |
 
-Kernel style (8-wide tabs, 80 columns, trailing whitespace in red) lives in
-`nvim/.config/nvim/after/ftplugin/c.lua`; C++ reuses it. Colorscheme is `retrobox` (Neovim
-0.10+, `habamax` on older). Leader is Space, as in Vim.
+Keys (leader is Space; which-key lists them): `<leader>ff/fg/fb` files/grep/buffers,
+`<leader>e` oil, `gd gr gi K` LSP (K = floating docs), `<leader>ch` switch .c/.h,
+`<leader>=` clang-format, `<leader>mm` :make, `<leader>cg/cb/cr` CMake,
+`<leader>db/dd/dn/ds/du` debugger, `<leader>k` man 3 of the word, `<leader>xx` diagnostics.
 
 ```sh
-sudo apt install neovim clangd clang-format bear ripgrep
-cd ~/.vim && stow --no-folding -t ~ nvim    # links ~/.config/nvim/* into this repo
+sudo apt install neovim clangd clang-format clang-tidy gdb cmake bear ripgrep fd-find build-essential git stow
+cd ~/.vim && stow --no-folding -t ~ nvim
+nvim            # first start clones lazy.nvim and the plugins (needs git and network)
 ```
 
-clangd needs `compile_commands.json`: run `bin/mkproject.sh` in the project.
+After the first successful start, commit `nvim/.config/nvim/lazy-lock.json` to pin
+the working plugin versions (`:Lazy restore` goes back to them). clangd needs
+`compile_commands.json`: run `bin/mkproject.sh` in the project.
 
 ## Generic maps
 
