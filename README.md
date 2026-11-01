@@ -20,7 +20,7 @@ conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, C
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
-nvim/                      Neovim config (Lua, no plugins): kernel style, clangd via built-in LSP
+nvim/                      stow package: nvim/.config/nvim (Lua, no plugins, kernel style, built-in LSP)
 home/                      files to copy into $HOME (.clang-format, clangd config)
 ```
 
@@ -59,12 +59,12 @@ explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
 | `clang-format` | `<leader>=` on the buffer or selection |
 
 Kernel style (8-wide tabs, 80 columns, trailing whitespace in red) lives in
-`nvim/after/ftplugin/c.lua`; C++ reuses it. Colorscheme is `retrobox` (Neovim
+`nvim/.config/nvim/after/ftplugin/c.lua`; C++ reuses it. Colorscheme is `retrobox` (Neovim
 0.10+, `habamax` on older). Leader is Space, as in Vim.
 
 ```sh
 sudo apt install neovim clangd clang-format bear ripgrep
-ln -s ~/.vim/nvim ~/.config/nvim
+cd ~/.vim && stow --no-folding -t ~ nvim    # links ~/.config/nvim/* into this repo
 ```
 
 clangd needs `compile_commands.json`: run `bin/mkproject.sh` in the project.
