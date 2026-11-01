@@ -20,6 +20,7 @@ conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, C
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
+nvim/                      Neovim config (Lua, Gruvbox, lazy.nvim); the one part that downloads plugins
 home/                      files to copy into $HOME (.clang-format, clangd config)
 ```
 
@@ -43,6 +44,23 @@ with this setup (snipmate, syntastic, auto-pairs, minimap, command-t, pathogen,
 vimwiki, voom, ...), so they never load.  Kept: airline (plain theme, no
 powerline fonts), ALE, fugitive, gitgutter, lastplace.  CtrlP is loaded
 explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
+
+## Neovim (optional)
+
+`nvim/` is a separate Lua config for Neovim; plain Vim ignores it. Unlike the
+rest of this repository it uses a plugin manager (lazy.nvim, which clones itself
+on first start, so it needs git and network): Gruvbox, lualine, telescope,
+gitsigns, which-key. Without network, Neovim still starts with the core
+options and maps.
+
+```sh
+sudo apt install neovim ripgrep fd-find
+ln -s ~/.vim/nvim ~/.config/nvim
+```
+
+Leader is Space, as in the Vim setup: `<leader>w` write, `<leader>q` quit,
+`<leader>f` files, `<leader>g` grep, `<leader>b` buffers, `<C-h/j/k/l>` windows,
+`<S-h>`/`<S-l>` previous/next buffer.
 
 ## Generic maps
 
