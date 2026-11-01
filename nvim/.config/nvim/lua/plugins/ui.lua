@@ -77,4 +77,24 @@ return {
             },
         },
     },
+
+    -- Discord Rich Presence. Por privacidade nao mostra nome de arquivo, projeto, linha nem botoes;
+    -- para mostrar tudo, apague os campos *_text e coloque enable_line_number = true.
+    {
+        "andweeb/presence.nvim",
+        event = "VeryLazy",
+        opts = {
+            neovim_image_text = "Neovim",
+            editing_text = "Programando em C/C++",
+            reading_text = "Lendo codigo",
+            workspace_text = "No terminal",
+            git_commit_text = "Escrevendo um commit",
+            file_explorer_text = "Navegando em arquivos",
+            plugin_manager_text = "Atualizando plugins",
+            line_number_text = "",
+            enable_line_number = false,
+            buttons = false,
+            show_time = true,
+        },
+    },
 }

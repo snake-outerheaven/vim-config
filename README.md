@@ -55,7 +55,7 @@ pinned to its `master` branch (`main` needs 0.12) and telescope to `0.1.x`.
 
 | Area | Plugins |
 |---|---|
-| Look | gruvbox.nvim, lualine, bufferline, noice + nvim-notify, indent-blankline, which-key |
+| Look | gruvbox.nvim, lualine, bufferline, noice + nvim-notify, indent-blankline, which-key, presence.nvim (Discord, no file names shown) |
 | Find / move | telescope (+ fzf-native), oil, flash, trouble, todo-comments |
 | Code | nvim-treesitter, nvim-cmp + LuaSnip, conform (clang-format), nvim-autopairs, mini.surround |
 | C/C++ | clangd (built-in LSP), cmake-tools, nvim-dap + dap-ui with gdb 14+ (native DAP) |
