@@ -73,6 +73,16 @@ endif
 nnoremap <buffer> <silent> <leader>= :call KernelClangFormat()<CR>
 xnoremap <buffer> <silent> <leader>= :<C-u>call KernelClangFormat(line("'<"), line("'>"))<CR>
 
+" OmniCppComplete (vim-omnicppcomplete) maps . > : and <C-X><C-O> globally and sets
+" a global 'omnifunc' each time a C/C++ buffer loads; completion here is ALE's.
+function! KernelNoOmniCpp() abort
+  for l:key in ['.', '>', ':', '<C-X><C-O>']
+    execute 'silent! iunmap' l:key
+  endfor
+  setglobal omnifunc=
+endfunction
+call KernelNoOmniCpp()
+
 let b:undo_ftplugin = (exists('b:undo_ftplugin') ? b:undo_ftplugin . '|' : '')
       \ . 'setlocal et< ts< sw< sts< sta< tw< cc< cin< cino< cink< com< fo< mp<'
       \ . '|call KernelWSOff()'

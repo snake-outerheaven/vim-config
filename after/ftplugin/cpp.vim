@@ -4,5 +4,8 @@
 " Differences: namespaces are not indented (N-s), lambdas/braces j1,J1.
 " Edit here if a project uses 2/4-space C++.
 setlocal cinoptions+=N-s,j1,J1
+" vimfiles/after/ftplugin/cpp.vim runs after the C chain, so undo OmniCppComplete
+" again here (see after/ftplugin/c.vim).
+call KernelNoOmniCpp()
 let b:undo_ftplugin = (exists('b:undo_ftplugin') ? b:undo_ftplugin . '|' : '')
       \ . 'setlocal cino<'
