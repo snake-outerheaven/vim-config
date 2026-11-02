@@ -131,11 +131,7 @@ if filereadable(expand("~/.vim/local.vim"))
   source ~/.vim/local.vim
 endif
 
-" --- Plugins and colorscheme, last -------------------------------
-" Debian's pack/dist-bundle/start plugins normally load after the vimrc, which is
-" too late for :colorscheme to find vim-gruvbox.  :packloadall loads them here instead,
-" after conf/*.vim and local.vim have set the guard variables and options.
-if has('packages')
-  packloadall
-endif
+" --- Colorscheme, last -------------------------------------------
+" Fedora's vimfiles directory is on 'runtimepath' from the start, so
+" :colorscheme finds packaged themes here, before plugins load.
 silent! colorscheme gruvbox         " falls back to the retrobox set above

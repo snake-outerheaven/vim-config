@@ -1,5 +1,5 @@
 " conf/20-start.vim -- Gruvbox start screen, shown when Vim is opened without a file.
-" Debian has no vim-startify package, so this is a small plain-Vim version:
+" Fedora has no vim-startify package, so this is a small plain-Vim version:
 " logo with a yellow-to-red gradient, one-key buttons, recent files, version footer.
 " Reopen it any time with :Start.
 

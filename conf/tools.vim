@@ -1,6 +1,6 @@
-" conf/tools.vim -- C/C++ toolchain: built-ins first, apt plugins second.
+" conf/tools.vim -- C/C++ toolchain: built-ins first, dnf plugins second.
 " Sourced by vimrc via `runtime! conf/*.vim`.  Leader is <Space>.
-" Debian pack/dist-bundle plugins load AFTER vimrc, so every plugin-dependent
+" Fedora vimfiles plugins load AFTER vimrc, so every plugin-dependent
 " map is installed from VimEnter / FileType, where exists() is truthful.
 " g:ale_* / g:gitgutter_* / g:ctrlp_* must be set before load: set unconditionally.
 
@@ -101,7 +101,11 @@ if executable('rg')
 endif
 
 function! s:PluginMaps() abort
-  silent! packadd CtrlP                 " Debian ships it in pack/*/opt
+  " vim-latex's imaps.vim takes a global <C-j> in every mode; give it back.
+  " ftplugin/tex.vim restores the placeholder jump for insert mode in TeX buffers.
+  nnoremap <C-j> <C-w>j
+  silent! iunmap <C-j>
+  silent! vunmap <C-j>
   if exists(':Git')
     nnoremap <leader>gs :Git<CR>
     nnoremap <leader>gb :Git blame<CR>
