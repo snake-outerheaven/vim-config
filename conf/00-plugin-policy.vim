@@ -2,8 +2,7 @@
 " `dnf install 'vim-*'` pulled in every plugin package.  Fedora's plugins live
 " directly in /usr/share/vim/vimfiles/plugin and load AFTER the vimrc, and a
 " plugin skips itself if its guard variable is already set, so we pre-set the
-" guards of the ones that clash with this setup.  Each new plugin that appears
-" there makes bin/check-fedora.sh fail until it has been reviewed.
+" guards of the ones that clash with this setup.
 " Guards verified against the Fedora 44 packages.
 "
 " Kept on purpose: ALE, fugitive, rhubarb, gitgutter, commentary, CtrlP, taglist,

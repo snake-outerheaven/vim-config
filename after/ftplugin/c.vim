@@ -10,7 +10,9 @@ setlocal cinoptions=:0,l1,t0,g0,(0,u0,w1,Ws
 setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
 setlocal comments=sO:\ *\ -,mO:\ *\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
 setlocal formatoptions=croqlj
-setlocal makeprg=make
+" bin/mkproject.sh configures CMake projects in build/; anything else is plain make.
+let &l:makeprg = !filereadable('Makefile') && filereadable('build/CMakeCache.txt')
+      \ ? 'cmake --build build' : 'make'
 silent! compiler gcc
 
 " Highlight trailing whitespace and space-before-tab (window-local matches).

@@ -12,20 +12,17 @@ elif [ -f Makefile ] || [ -f makefile ] || [ -f GNUmakefile ]; then
   if command -v bear >/dev/null 2>&1; then
     bear -- make -B          # -B: force full rebuild so every file is recorded
   else
-    warn "bear not found; skipping compile_commands.json (apt install bear)"
+    warn "bear not found; skipping compile_commands.json (dnf install bear)"
   fi
 else
   warn "no CMakeLists.txt or Makefile; skipping compile_commands.json"
 fi
 
-# 2. ctags (needs Universal Ctags; Debian's default may be Emacs ctags)
-CTAGS=
-if command -v ctags-universal >/dev/null 2>&1; then CTAGS=ctags-universal
-elif ctags --version 2>/dev/null | grep -q 'Universal Ctags'; then CTAGS=ctags; fi
-if [ -n "$CTAGS" ]; then
-  $CTAGS -R --fields=+iaS --extras=+q --exclude=.git --exclude=build .
+# 2. ctags (Fedora's ctags package is Universal Ctags)
+if ctags --version 2>/dev/null | grep -q 'Universal Ctags'; then
+  ctags -R --fields=+iaS --extras=+q --exclude=.git --exclude=build .
 else
-  warn "universal-ctags not found; skipping tags"
+  warn "Universal Ctags not found; skipping tags (dnf install ctags)"
 fi
 
 # 3. cscope: -R only scans C files, so list C++ sources explicitly

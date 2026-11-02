@@ -2,7 +2,7 @@
 
 Plain, vi-tradition Vim setup for Unix C/C++ systems programming in the Linux
 kernel coding style (8-wide tabs, 80 columns, `clang-format` with the kernel
-style).  Built for Debian 13 (Vim 9.1) using only packages from the Debian
+style).  Built for Fedora 44 (Vim 9.2) using only packages from the Fedora
 repositories: no plugin manager, no downloads.  Works in terminal Vim and gvim.
 
 This repository used to hold an Emacs configuration; it is still in the git
@@ -15,10 +15,12 @@ License: [MIT](LICENSE).
 ```
 vimrc                      core settings, Space leader, gruvbox colorscheme (retrobox fallback)
 gvimrc                     gvim only: Cascadia Code 11, no toolbar/menu
-conf/00-plugin-policy.vim  neutralise Debian plugins that clash; airline and gruvbox settings
+conf/00-plugin-policy.vim  turn off Fedora plugins that clash; plugin options; gruvbox settings
 conf/20-start.vim          Gruvbox start screen (:Start)
+conf/30-statusline.vim     status line and buffer tabline in plain Vim script
 conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, CtrlP
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
+ftplugin/tex.vim           restores vim-latex's <C-j> in TeX buffers
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
 home/                      files to copy into $HOME (.clang-format, clangd config)
@@ -27,42 +29,35 @@ home/                      files to copy into $HOME (.clang-format, clangd confi
 Runtime state (`backup/`, `swap/`, `undo/`, `viminfo`) is created on first run
 and gitignored.  Put machine-specific overrides in `local.vim` (also ignored).
 
-## Setup (Debian 13)
+## Setup (Fedora 44)
 
 ```sh
-git clone <this repo> ~/.vim
-sudo apt install vim* clang-format clang-tidy clangd bear universal-ctags cscope ripgrep cppcheck valgrind
+git clone -b fedora <this repo> ~/.vim
+sudo dnf install 'vim-*' awesome-vim-colorschemes gcc gcc-c++ make cmake gdb \
+  clang-tools-extra bear ctags cscope ripgrep cppcheck valgrind cascadia-code-fonts
 cp ~/.vim/home/.clang-format ~/
 mkdir -p ~/.config/clangd && cp ~/.vim/home/.config/clangd/config.yaml ~/.config/clangd/
 ```
 
 A `~/.vimrc` takes precedence over `~/.vim/vimrc`, so remove or rename it.
 
-`vim*` installs every Debian Vim plugin.  `conf/00-plugin-policy.vim` makes that
-safe: it pre-sets the guard variable of each auto-loading plugin that clashes
-with this setup (snipmate, syntastic, auto-pairs, minimap, command-t, pathogen,
-vimwiki, voom, ...), so they never load.  Kept: airline with the gruvbox theme, ALE,
-fugitive, gitgutter, lastplace, gruvbox.  CtrlP is loaded
-explicitly with `packadd`; youcompleteme is in `opt/` and never auto-loads.
+`clang-tools-extra` provides clangd and clang-format.  `'vim-*'` installs
+every Fedora Vim plugin, and they all load after the vimrc.  `conf/00-plugin-policy.vim`
+makes that safe: it pre-sets the guard variable of each plugin that clashes with this
+setup (powerline, syntastic, command-t, javabrowser, trailing-whitespace), so they
+never load.  Used here: ALE, fugitive, gitgutter, CtrlP.
 
 ## Appearance
 
-All of it comes from Debian 13 packages or plain Vim script; no plugin manager, no
-downloads, no special font needed.
-
 | Piece | Source |
 |---|---|
-| Colorscheme | `vim-gruvbox` (hard contrast); falls back to the built-in `retrobox` |
-| Status line and buffer tabline | `vim-airline` with the gruvbox theme from `vim-gruvbox`: mode, git branch, hunks (gitgutter), ALE counts, filetype, encoding, position |
-| Start screen | `conf/20-start.vim` (Debian has no vim-startify): logo with a yellow-to-red gradient, one-key buttons, last 5 files |
+| Colorscheme | gruvbox from `awesome-vim-colorschemes` (hard contrast); falls back to the built-in `retrobox` |
+| Status line and buffer tabline | `conf/30-statusline.vim`: mode, git branch, hunks (gitgutter), ALE counts, filetype, encoding, position |
+| Start screen | `conf/20-start.vim`: logo with a yellow-to-red gradient, one-key buttons, last 5 files |
 
 Start screen keys: `f` find file, `g` grep, `r` recent files, `e` explore, `n` new file,
 `c` open the vimrc, `q` quit, `1`-`5` open a recent file, `Enter` runs the button under the
 cursor. `:Start` opens it again.
-
-With a Powerline or Nerd Font put `let g:airline_powerline_fonts = 1` in `~/.vim/local.vim`.
-`:packloadall` at the end of the vimrc loads the Debian plugins early enough for
-`:colorscheme gruvbox` to find them; the guard variables and options are set before it.
 
 ## Generic maps
 
@@ -74,8 +69,10 @@ location list, `]l [l`, `]Q [Q`, `<C-h/j/k/l>` windows, `Y` = `y$`.
 
 ## Per-project setup
     bin/mkproject.sh [dir]   # compile_commands.json (cmake or `bear -- make -B`),
-                             # tags (universal-ctags), cscope.out (-bqk from cscope.files)
+                             # tags (ctags), cscope.out (-bqk from cscope.files)
 Build with `-g` for gdb. clangd (via ALE) reads compile_commands.json.
+`:make` runs `cmake --build build` when cwd has `build/CMakeCache.txt` and no
+`Makefile`, otherwise `make`.
 
 ## Tags / cscope (built-in)
 `<C-]>` jump, `<C-t>` back, `g<C-]>` choose among matches, `<C-w>}` preview.
