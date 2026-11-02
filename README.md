@@ -21,6 +21,7 @@ conf/30-statusline.vim     status line and buffer tabline in plain Vim script
 conf/tools.vim             ctags, cscope, :make/quickfix, termdebug, ALE, git, CtrlP
 after/ftplugin/            kernel style for C and C++, Makefile, git commits
 ftplugin/tex.vim           restores vim-latex's <C-j> in TeX buffers
+bin/install.sh             packages and $HOME files for a new machine
 bin/mkproject.sh           compile_commands.json + tags + cscope for a project
 templates/                 Makefile.skel, .editorconfig
 home/                      files to copy into $HOME (.clang-format, clangd config)
@@ -33,11 +34,17 @@ and gitignored.  Put machine-specific overrides in `local.vim` (also ignored).
 
 ```sh
 git clone -b fedora <this repo> ~/.vim
-sudo dnf install 'vim-*' awesome-vim-colorschemes gcc gcc-c++ make cmake gdb \
-  clang-tools-extra bear ctags cscope ripgrep cppcheck valgrind cascadia-code-fonts
-cp ~/.vim/home/.clang-format ~/
-mkdir -p ~/.config/clangd && cp ~/.vim/home/.config/clangd/config.yaml ~/.config/clangd/
+~/.vim/bin/install.sh
 ```
+
+`bin/install.sh` asks for sudo to install the packages below, copies `home/.clang-format`
+and the clangd config into `$HOME`, and warns about anything it finds in the way.  It can
+be rerun, never overwrites a file in `$HOME`, and takes `--dry-run` and `--no-packages`.
+
+Packages: `vim-*` (except `vim-default-editor`, which conflicts with Fedora's
+`nano-default-editor`), `awesome-vim-colorschemes`, `gcc`, `gcc-c++`, `make`, `cmake`, `gdb`,
+`clang-tools-extra`, `bear`, `ctags`, `cscope`, `ripgrep`, `cppcheck`, `valgrind`,
+`cascadia-code-fonts`.
 
 A `~/.vimrc` takes precedence over `~/.vim/vimrc`, so remove or rename it.
 
